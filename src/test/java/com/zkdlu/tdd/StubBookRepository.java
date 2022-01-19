@@ -15,4 +15,9 @@ public class StubBookRepository implements BookRepository {
     public Book getById(long id) {
         return get_returnValue;
     }
+
+    @Override
+    public Book create(NewBook newBook) {
+        return null;
+    }
 }

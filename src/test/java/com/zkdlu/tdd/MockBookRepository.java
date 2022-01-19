@@ -18,6 +18,11 @@ public class MockBookRepository implements BookRepository {
         return null;
     }
 
+    @Override
+    public Book create(NewBook newBook) {
+        return null;
+    }
+
     public void verify_getById(long id) {
         assertThat(getById_argument_id).isEqualTo(id);
     }

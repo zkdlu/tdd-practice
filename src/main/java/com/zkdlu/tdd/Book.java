@@ -1,7 +1,9 @@
 package com.zkdlu.tdd;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+@EqualsAndHashCode
 @Getter
 public class Book {
     private long id;

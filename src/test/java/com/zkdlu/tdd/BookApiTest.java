@@ -122,6 +122,27 @@ class BookApiTest {
         mockMvc.perform(get("/api/books/10"));
 
         trueMockBookRepository.verify_getById(10L);
+    }
 
+    @Test
+    void getBooks_returnsBooks_usingFake() throws Exception {
+        FakeBookRepository fakeBookRepository = new FakeBookRepository();
+        BookApi bookApi = new BookApi(fakeBookRepository);
+
+        fakeBookRepository.create(new NewBook("book name 1", "book author 1"));
+        fakeBookRepository.create(new NewBook("book name 2", "book author 2"));
+
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(bookApi)
+                .build();
+
+        mockMvc.perform(get("/api/books"))
+                .andExpect(jsonPath("$[0].id", equalTo(1)))
+                .andExpect(jsonPath("$[0].name", equalTo("book name 1")))
+                .andExpect(jsonPath("$[0].author", equalTo("book author 1")))
+
+                .andExpect(jsonPath("$[1].id", equalTo(2)))
+                .andExpect(jsonPath("$[1].name", equalTo("book name 2")))
+                .andExpect(jsonPath("$[1].author", equalTo("book author 2")));
     }
 }

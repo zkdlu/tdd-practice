@@ -15,4 +15,9 @@ public class SpyBookRepository implements BookRepository {
         get_argument_id = id;
         return null;
     }
+
+    @Override
+    public Book create(NewBook newBook) {
+        return null;
+    }
 }
