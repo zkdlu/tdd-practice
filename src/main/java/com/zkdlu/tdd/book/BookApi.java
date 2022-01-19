@@ -1,4 +1,4 @@
-package com.zkdlu.tdd;
+package com.zkdlu.tdd.book;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

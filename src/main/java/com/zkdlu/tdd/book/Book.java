@@ -1,4 +1,4 @@
-package com.zkdlu.tdd;
+package com.zkdlu.tdd.book;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

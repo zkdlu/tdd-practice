@@ -1,4 +1,4 @@
-package com.zkdlu.tdd;
+package com.zkdlu.tdd.book;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
