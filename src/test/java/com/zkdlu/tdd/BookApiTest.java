@@ -29,13 +29,13 @@ class BookApiTest {
     }
 
     @Test
-    void test_getBooks_returnsOkHttpStatus() throws Exception {
+    void getBooks_returnsOkHttpStatus() throws Exception {
         mockMvc.perform(get("/api/books"))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void test_getBooks_returnsASingleBook() throws Exception {
+    void getBooks_returnsASingleBook() throws Exception {
         stubBookRepository.getAll_returnValue = Collections.singletonList(
                 new Book("book name", "book author"));
 
@@ -45,7 +45,7 @@ class BookApiTest {
     }
 
     @Test
-    void test_getBooks_returnsASingleBook_usingMockito() throws Exception {
+    void getBooks_returnsASingleBook_usingMockito() throws Exception {
         BookRepository mockBookRepository = mock(BookRepository.class);
         BookApi bookApi = new BookApi(mockBookRepository);
 
@@ -62,13 +62,13 @@ class BookApiTest {
     }
 
     @Test
-    void test_getBook_returnsOkHttpStatus() throws Exception {
+    void getBook_returnsOkHttpStatus() throws Exception {
         mockMvc.perform(get("/api/books/1"))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void test_getBook_returnsASingleBook() throws Exception {
+    void getBook_returnsASingleBook() throws Exception {
         stubBookRepository.get_returnValue = new Book("book name", "book author");
 
         mockMvc.perform(get("/api/books/1"))
