@@ -1,6 +1,7 @@
 package com.zkdlu.tdd;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,4 +20,10 @@ public class BookApi {
     public List<Book> getBooks() {
         return bookRepository.getAll();
     }
+
+    @GetMapping("/{id}")
+    public Book getBook(@PathVariable long id) {
+        return bookRepository.get();
+    }
+
 }

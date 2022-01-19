@@ -60,4 +60,19 @@ class BookApiTest {
                 .andExpect(jsonPath("$[0].name", equalTo("book name")))
                 .andExpect(jsonPath("$[0].author", equalTo("book author")));
     }
+
+    @Test
+    void test_getBook_returnsOkHttpStatus() throws Exception {
+        mockMvc.perform(get("/api/books/1"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void test_getBook_returnsASingleBook() throws Exception {
+        stubBookRepository.get_returnValue = new Book("book name", "book author");
+
+        mockMvc.perform(get("/api/books/1"))
+                .andExpect(jsonPath("$.name", equalTo("book name")))
+                .andExpect(jsonPath("$.author", equalTo("book author")));
+    }
 }
