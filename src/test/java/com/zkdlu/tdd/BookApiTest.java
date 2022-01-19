@@ -29,6 +29,7 @@ class BookApiTest {
     @Test
     void test_getBookApi_returnsASingleBook() throws Exception {
         mockMvc.perform(get("/api/books"))
-                .andExpect(jsonPath("$[0].name", equalTo("TDD by Example")));
+                .andExpect(jsonPath("$[0].name", equalTo("TDD by Example")))
+                .andExpect(jsonPath("$[0].author", equalTo("Kent Beck")));
     }
 }

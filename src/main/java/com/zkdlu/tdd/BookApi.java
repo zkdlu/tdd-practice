@@ -12,7 +12,7 @@ import java.util.List;
 public class BookApi {
     @GetMapping
     public List<Book> getBooks() {
-        Book tddBook = new Book("TDD by Example");
+        Book tddBook = new Book("TDD by Example", "Kent Beck");
 
         return Collections.singletonList(tddBook);
     }
