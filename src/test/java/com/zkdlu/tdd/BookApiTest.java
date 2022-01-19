@@ -38,7 +38,7 @@ class BookApiTest {
     @Test
     void getBooks_returnsASingleBook() throws Exception {
         stubBookRepository.getAll_returnValue = Collections.singletonList(
-                new Book("book name", "book author"));
+                new Book(1L, "book name", "book author"));
 
         mockMvc.perform(get("/api/books"))
                 .andExpect(jsonPath("$[0].name", equalTo("book name")))
@@ -55,9 +55,10 @@ class BookApiTest {
                 .build();
 
         when(mockBookRepository.getAll())
-                .thenReturn(Collections.singletonList(new Book("book name", "book author")));
+                .thenReturn(Collections.singletonList(new Book(1L, "book name", "book author")));
 
         mockMvc.perform(get("/api/books"))
+                .andExpect(jsonPath("$[0].id", equalTo(1)))
                 .andExpect(jsonPath("$[0].name", equalTo("book name")))
                 .andExpect(jsonPath("$[0].author", equalTo("book author")));
     }
@@ -70,9 +71,10 @@ class BookApiTest {
 
     @Test
     void getBook_returnsASingleBook() throws Exception {
-        stubBookRepository.get_returnValue = new Book("book name", "book author");
+        stubBookRepository.get_returnValue = new Book(1L, "book name", "book author");
 
         mockMvc.perform(get("/api/books/1"))
+                .andExpect(jsonPath("$.id", equalTo(1)))
                 .andExpect(jsonPath("$.name", equalTo("book name")))
                 .andExpect(jsonPath("$.author", equalTo("book author")));
     }
