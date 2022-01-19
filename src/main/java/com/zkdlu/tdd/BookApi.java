@@ -23,7 +23,7 @@ public class BookApi {
 
     @GetMapping("/{id}")
     public Book getBook(@PathVariable long id) {
-        return bookRepository.get(id);
+        return bookRepository.getById(id);
     }
 
 }

@@ -103,9 +103,23 @@ class BookApiTest {
         mockMvc.perform(get("/api/books/10"));
 
         ArgumentCaptor<Long> longArgumentCaptor = ArgumentCaptor.forClass(Long.class);
-        verify(mockBookRepository, times(1)).get(longArgumentCaptor.capture());
+        verify(mockBookRepository, times(1)).getById(longArgumentCaptor.capture());
 
         assertThat(longArgumentCaptor.getValue()).isEqualTo(10L);
     }
 
+    @Test
+    void getBook_passesDataToRepository_usingTrueMock() throws Exception {
+        MockBookRepository trueMockBookRepository = new MockBookRepository();
+        BookApi bookApi = new BookApi(trueMockBookRepository);
+
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(bookApi)
+                .build();
+
+        mockMvc.perform(get("/api/books/10"));
+
+        trueMockBookRepository.verify_getById(10L);
+
+    }
 }
