@@ -7,6 +7,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Collections;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -74,5 +75,19 @@ class BookApiTest {
         mockMvc.perform(get("/api/books/1"))
                 .andExpect(jsonPath("$.name", equalTo("book name")))
                 .andExpect(jsonPath("$.author", equalTo("book author")));
+    }
+
+    @Test
+    void getBook_passesDataToRepository() throws Exception {
+        SpyBookRepository spyBookRepository = new SpyBookRepository();
+        BookApi bookApi = new BookApi(spyBookRepository);
+
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(bookApi)
+                .build();
+
+        mockMvc.perform(get("/api/books/10"));
+
+        assertThat(spyBookRepository.get_argument_id).isEqualTo(10L);
     }
 }

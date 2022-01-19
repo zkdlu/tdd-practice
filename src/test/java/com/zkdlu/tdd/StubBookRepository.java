@@ -12,7 +12,7 @@ public class StubBookRepository implements BookRepository {
     }
 
     @Override
-    public Book get() {
+    public Book get(long id) {
         return get_returnValue;
     }
 }
