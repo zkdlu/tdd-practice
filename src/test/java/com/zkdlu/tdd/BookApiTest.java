@@ -8,6 +8,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Collections;
 
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -27,15 +29,32 @@ class BookApiTest {
     }
 
     @Test
-    void test_getBookApi_returnsOkHttpStatus() throws Exception {
+    void test_getBooks_returnsOkHttpStatus() throws Exception {
         mockMvc.perform(get("/api/books"))
                 .andExpect(status().isOk());
     }
 
     @Test
-    void test_getBookApi_returnsASingleBook() throws Exception {
+    void test_getBooks_returnsASingleBook() throws Exception {
         stubBookRepository.getAll_returnValue = Collections.singletonList(
                 new Book("book name", "book author"));
+
+        mockMvc.perform(get("/api/books"))
+                .andExpect(jsonPath("$[0].name", equalTo("book name")))
+                .andExpect(jsonPath("$[0].author", equalTo("book author")));
+    }
+
+    @Test
+    void test_getBooks_returnsASingleBook_usingMockito() throws Exception {
+        BookRepository mockBookRepository = mock(BookRepository.class);
+        BookApi bookApi = new BookApi(mockBookRepository);
+
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(bookApi)
+                .build();
+
+        when(mockBookRepository.getAll())
+                .thenReturn(Collections.singletonList(new Book("book name", "book author")));
 
         mockMvc.perform(get("/api/books"))
                 .andExpect(jsonPath("$[0].name", equalTo("book name")))
