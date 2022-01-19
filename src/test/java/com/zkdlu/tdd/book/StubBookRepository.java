@@ -9,6 +9,7 @@ import java.util.List;
 public class StubBookRepository implements BookRepository {
     public List<Book> getAll_returnValue;
     public Book get_returnValue;
+    public NotFoundException getById_throwsException;
 
     @Override
     public List<Book> getAll() {
@@ -17,6 +18,10 @@ public class StubBookRepository implements BookRepository {
 
     @Override
     public Book getById(long id) {
+        if (getById_throwsException != null) {
+            throw getById_throwsException;
+        }
+
         return get_returnValue;
     }
 

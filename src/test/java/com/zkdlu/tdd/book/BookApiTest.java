@@ -145,4 +145,20 @@ class BookApiTest {
                 .andExpect(jsonPath("$[1].name", equalTo("book name 2")))
                 .andExpect(jsonPath("$[1].author", equalTo("book author 2")));
     }
+
+    @Test
+    void getBook_returnsNotFoundStatus_whenBookNotFound() throws Exception {
+        StubBookRepository stubBookRepository = new StubBookRepository();
+        stubBookRepository.getById_throwsException = new NotFoundException("Book with id #10 not found.");
+
+        BookApi bookApi = new BookApi(stubBookRepository);
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(bookApi)
+                .setControllerAdvice(new ApiExceptionHandler())
+                .build();
+
+        mockMvc.perform(get("/api/books/10"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.errorMessage", equalTo("Book with id #10 not found.")));
+    }
 }
