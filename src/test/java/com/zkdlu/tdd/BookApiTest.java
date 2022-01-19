@@ -2,6 +2,7 @@ package com.zkdlu.tdd;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -9,8 +10,7 @@ import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -90,4 +90,22 @@ class BookApiTest {
 
         assertThat(spyBookRepository.get_argument_id).isEqualTo(10L);
     }
+
+    @Test
+    void getBook_passesDataToRepository_usingMockito() throws Exception {
+        BookRepository mockBookRepository = mock(BookRepository.class);
+        BookApi bookApi = new BookApi(mockBookRepository);
+
+        mockMvc = MockMvcBuilders
+                .standaloneSetup(bookApi)
+                .build();
+
+        mockMvc.perform(get("/api/books/10"));
+
+        ArgumentCaptor<Long> longArgumentCaptor = ArgumentCaptor.forClass(Long.class);
+        verify(mockBookRepository, times(1)).get(longArgumentCaptor.capture());
+
+        assertThat(longArgumentCaptor.getValue()).isEqualTo(10L);
+    }
+
 }
